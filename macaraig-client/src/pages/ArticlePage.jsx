@@ -1,4 +1,5 @@
 import Button from '../components/Button';
+import assets from "../assets/Hajjima.png";
 
 const ArticlePage = () => {
   return (
@@ -8,10 +9,10 @@ const ArticlePage = () => {
           Articles
         </p>
         <h1 className="max-w-xl text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
-          Featured articles in a simple card grid
+          Stories Behind Don't Stop Apparel
         </h1>
         <p className="mt-4 max-w-lg text-sm leading-7 text-zinc-600 sm:text-base">
-          A clean wireframe section for article thumbnails, titles, short descriptions, and one clear action per card.
+          Explore the inspiration, mindset, and culture behind the brand. Learn what drives the “Don’t Stop” philosophy.
         </p>
 
         <div className="mt-6">
@@ -25,82 +26,88 @@ const ArticlePage = () => {
             Featured Articles
           </p>
           <h2 className="mt-2 text-2xl font-semibold text-zinc-900">
-            Article card grid
+            Brand Insights
           </h2>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+          
           <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-            <div className="flex aspect-[4/3] items-center justify-center rounded-[1.25rem] bg-zinc-200">
-              <div className="h-12 w-12 border-2 border-zinc-300 bg-zinc-100" />
+            <div className="flex aspect-[4/3] rounded-[1.25rem] bg-zinc-200 overflow-hidden">
+              <img src={assets} alt="brand" className="w-full h-full object-cover" />
             </div>
 
-            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
+            <p className="mt-4 text-[11px] uppercase text-zinc-500">
               Article 01
             </p>
             <h3 className="mt-2 text-lg font-semibold text-zinc-900">
-              Wireframe layout basics
+              The Meaning Behind “Don't Stop”
             </h3>
-            <p className="mt-3 text-sm leading-6 text-zinc-600">
-              A simple placeholder for a featured article with image, title, and short copy.
+            <p className="mt-3 text-sm text-zinc-600">
+              Discover the mindset and message that defines the Don't Stop Apparel brand.
             </p>
 
             <Button className="mt-4">Read More</Button>
           </article>
 
+          
           <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-            <div className="flex aspect-[4/3] items-center justify-center rounded-[1.25rem] bg-zinc-200">
-              <div className="h-12 w-12 border-2 border-zinc-300 bg-zinc-100" />
+            <div className="flex aspect-[4/3] rounded-[1.25rem] bg-zinc-200 overflow-hidden">
+              <img src={assets} alt="brand" className="w-full h-full object-cover" />
             </div>
 
-            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
+            <p className="mt-4 text-[11px] uppercase text-zinc-500">
               Article 02
             </p>
             <h3 className="mt-2 text-lg font-semibold text-zinc-900">
-              Building clean sections
+              Streetwear Culture Today
             </h3>
-            <p className="mt-3 text-sm leading-6 text-zinc-600">
-              Another card using the same layout pattern for a consistent article grid.
+            <p className="mt-3 text-sm text-zinc-600">
+              A look into how streetwear became a global movement and lifestyle.
             </p>
 
             <Button className="mt-4">Read More</Button>
           </article>
 
+          
           <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-            <div className="flex aspect-[4/3] items-center justify-center rounded-[1.25rem] bg-zinc-200">
-              <div className="h-12 w-12 border-2 border-zinc-300 bg-zinc-100" />
+            <div className="flex aspect-[4/3] rounded-[1.25rem] bg-zinc-200 overflow-hidden">
+              <img src={assets} alt="brand" className="w-full h-full object-cover" />
             </div>
 
-            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
+            <p className="mt-4 text-[11px] uppercase text-zinc-500">
               Article 03
             </p>
             <h3 className="mt-2 text-lg font-semibold text-zinc-900">
-              Using cards and lists
+              From Idea to Brand
             </h3>
-            <p className="mt-3 text-sm leading-6 text-zinc-600">
-              The same low-fidelity treatment keeps the card section easy to scan.
+            <p className="mt-3 text-sm text-zinc-600">
+              How Don't Stop Apparel started and evolved into a clothing identity.
             </p>
 
             <Button className="mt-4">Read More</Button>
           </article>
 
+          
           <article className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-4">
-            <div className="flex aspect-[4/3] items-center justify-center rounded-[1.25rem] bg-zinc-200">
-              <div className="h-12 w-12 border-2 border-zinc-300 bg-zinc-100" />
+            <div className="flex aspect-[4/3] rounded-[1.25rem] bg-zinc-200 overflow-hidden">
+              <img src={assets} alt="brand" className="w-full h-full object-cover" />
             </div>
 
-            <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
+            <p className="mt-4 text-[11px] uppercase text-zinc-500">
               Article 04
             </p>
             <h3 className="mt-2 text-lg font-semibold text-zinc-900">
-              Low-fidelity article flow
+              Building Confidence Through Style
             </h3>
-            <p className="mt-3 text-sm leading-6 text-zinc-600">
-              A final article card to complete the featured grid layout.
+            <p className="mt-3 text-sm text-zinc-600">
+              How fashion influences confidence and personal expression.
             </p>
 
             <Button className="mt-4">Read More</Button>
           </article>
+
         </div>
       </section>
     </div>
