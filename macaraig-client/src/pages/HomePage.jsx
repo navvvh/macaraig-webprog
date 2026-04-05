@@ -9,7 +9,7 @@ const HomePage = () => {
         <div className="grid gap-8 lg:grid-cols-2 items-center">
           <div>
             <h1 className="text-4xl font-bold text-zinc-900">
-              DON'T STOP APPAREL
+              HAJJIMA APPAREL
             </h1>
             <p className="mt-4 text-zinc-600">
               A streetwear brand built on passion, hustle, and the mindset to never stop.

@@ -9,7 +9,7 @@ const ArticlePage = () => {
           Articles
         </p>
         <h1 className="max-w-xl text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
-          Stories Behind Don't Stop Apparel
+          Stories Behind HAJJIMA APPAREL
         </h1>
         <p className="mt-4 max-w-lg text-sm leading-7 text-zinc-600 sm:text-base">
           Explore the inspiration, mindset, and culture behind the brand. Learn what drives the “Don’t Stop” philosophy.

@@ -18,15 +18,15 @@ const AboutPage = () => {
               About Our Brand
             </p>
             <h1 className="max-w-xl text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
-              DON'T STOP APPAREL
+              HAJJIMA APPAREL
             </h1>
             <p className="mt-4 max-w-lg text-sm leading-7 text-zinc-600 sm:text-base">
-              Don't Stop Apparel is a streetwear clothing brand built on passion, hustle, and self-expression.
+              HAJJIMA APPAREL is a streetwear clothing brand built on passion, hustle, and self-expression.
               Our designs represent the mindset of never giving up and always pushing forward no matter the situation.
             </p>
 
             <p className="mt-3 font-semibold text-zinc-800">
-              Motto: "Don't Stop."
+              "Don't Stop."
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
