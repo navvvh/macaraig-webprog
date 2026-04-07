@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 
 const variantClasses = {
-  primary: 'bg-zinc-900 text-zinc-50 hover:bg-zinc-700',
-  secondary: 'bg-zinc-50 text-zinc-900 hover:bg-zinc-200',
+  primary: 'bg-orange-600 text-white border-orange-600 hover:bg-orange-700',
+  secondary: 'bg-transparent text-white border-zinc-700 hover:border-orange-600 hover:text-orange-500',
 };
 
 const Button = ({
@@ -13,7 +13,7 @@ const Button = ({
   className = '',
 }) => {
   const classes = [
-    'inline-flex items-center justify-center rounded-full border-2 border-zinc-900 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.24em] transition',
+    'inline-flex items-center justify-center rounded-full border-2 px-6 py-3 text-[10px] font-black uppercase tracking-[0.24em] transition-all duration-300',
     variantClasses[variant] ?? variantClasses.secondary,
     className,
   ]
