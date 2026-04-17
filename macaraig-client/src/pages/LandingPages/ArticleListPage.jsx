@@ -1,6 +1,5 @@
-import Button from '../components/Button';
-import ArticleList from '../components/ArticleList';
-import articles from '../assets/article-content.js';
+import Button from '../../components/Button';
+import articles from '../../assets/article-content.js';
 
 const ArticleListPage = () => {
   return (
@@ -23,15 +22,19 @@ const ArticleListPage = () => {
       </section>
 
       <section className="px-4 py-16 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-        <div className="mb-10">
-          <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-orange-500">
-            Brand Overview
-          </p>
-          <h2 className="mt-2 text-3xl font-black text-white italic uppercase tracking-tighter">
-            What we represent
-          </h2>
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {articles.map((article) => (
+            <div key={article.name} className="flex flex-col border-2 border-zinc-900 bg-zinc-900/50 rounded-3xl overflow-hidden hover:border-orange-600 transition-all p-6">
+              <h3 className="text-xl font-black text-white uppercase italic mb-4">{article.title}</h3>
+              <p className="text-zinc-400 text-sm mb-6 line-clamp-3 text-justify">
+                {article.content[0]}
+              </p>
+              <Button to={`/articles/${article.name}`} variant="primary" className="mt-auto">
+                Read More
+              </Button>
+            </div>
+          ))}
         </div>
-        <ArticleList articles={articles} />
       </section>
     </div>
   );

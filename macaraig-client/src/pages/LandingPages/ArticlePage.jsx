@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
-import Button from '../components/Button';
-import articles from '../assets/article-content.js';
-import NotFoundPage from './NotFoundPage';
+import Button from '../../components/Button';
+import articles from "../../assets/article-content.js";
+import NotFoundPage from "../NotFoundPage";
 
 function ArticlePage() {
   const { name } = useParams();
@@ -40,19 +40,14 @@ function ArticlePage() {
 
           <div className="space-y-8">
             {article.content.map((paragraph, index) => (
-              <p key={index} className="text-lg leading-8 text-zinc-300 font-medium whitespace-pre-wrap">
+              <p key={index} className="text-lg leading-8 text-zinc-300 font-medium whitespace-pre-wrap text-justify">
                 {paragraph}
               </p>
             ))}
           </div>
 
-          <div className="mt-16 border-t border-zinc-800 pt-8 flex justify-between items-center">
-            <Button to="/articles" variant="primary">
-              Return to Collection
-            </Button>
-            <span className="text-[10px] text-zinc-600 uppercase tracking-[0.3em] font-bold">
-              Est. 2026
-            </span>
+          <div className="mt-16 border-t border-zinc-800 pt-8 flex justify-center">
+            <Button to="/articles" variant="primary">View More Articles</Button>
           </div>
         </div>
       </section>

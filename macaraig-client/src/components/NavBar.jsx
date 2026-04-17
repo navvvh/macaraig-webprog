@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import assets from "../assets/Hajjima.png";
+import Button from "./Button";
 
 const links = [
   { label: "Home", to: "/" },
@@ -35,6 +36,16 @@ const NavBar = () => {
               {link.label}
             </NavLink>
           ))}
+          
+          <div className="mx-2 h-6 w-[2px] bg-zinc-800" />
+
+          <NavLink to="/auth/signin" className="text-[11px] font-bold uppercase tracking-[0.24em] text-zinc-400 hover:text-orange-500 px-4 transition">
+            Log In
+          </NavLink>
+          
+          <Button to="/auth/signup" variant="primary" className="py-2 px-6 text-[10px] font-black italic uppercase">
+            Join
+          </Button>
         </nav>
       </div>
     </header>

@@ -1,5 +1,5 @@
-import Button from '../components/Button';
-import assets from "../assets/Hajjima.png";
+import Button from '../../components/Button';
+import assets from "../../assets/Hajjima.png";
 
 const HomePage = () => {
   return (
