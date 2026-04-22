@@ -4,7 +4,7 @@ import assets from "../../assets/Hajjima.png";
 const AboutPage = () => {
   return (
     <div className="flex w-full flex-col gap-6">
-      <section className="border-y-2 border-zinc-900 bg-black px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
           
           <img
@@ -14,18 +14,18 @@ const AboutPage = () => {
               />
 
           <div>
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-white">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
               About Our Brand
             </p>
-            <h1 className="max-w-xl text-3xl font-bold leading-tight text-white sm:text-4xl">
+            <h1 className="max-w-xl text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
               HAJJIMA APPAREL
             </h1>
-            <p className="mt-4 max-w-lg text-sm leading-7 text-white sm:text-base">
+            <p className="mt-4 max-w-lg text-sm leading-7 text-zinc-600 sm:text-base">
               HAJJIMA APPAREL is a streetwear clothing brand built on passion, hustle, and self-expression.
               Our designs represent the mindset of never giving up and always pushing forward no matter the situation.
             </p>
 
-            <p className="mt-3 font-semibold text-white">
+            <p className="mt-3 font-semibold text-zinc-800">
               "Don't Stop."
             </p>
 

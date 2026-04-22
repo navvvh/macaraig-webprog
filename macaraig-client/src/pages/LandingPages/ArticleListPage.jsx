@@ -9,7 +9,7 @@ const ArticleListPage = () => {
           <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.4em] text-orange-500">
             Journal
           </p>
-          <h1 className="max-w-xl text-4xl font-black italic leading-tight text-white sm:text-5xl uppercase tracking-tighter mt-10">
+          <h1 className="max-w-xl text-4xl font-black italic leading-tight text-white sm:text-5xl uppercase tracking-tighter">
             THE <span className="text-orange-600">GRIND</span> FILES
           </h1>
           <p className="mt-6 max-w-lg text-sm leading-7 text-zinc-400 sm:text-base">
