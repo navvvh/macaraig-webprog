@@ -1,16 +1,19 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import Layout from './layouts/Layout';
-import ArticlePage from './pages/LandingPages/ArticlePage';
+// Layouts
+import Layout from './components/Layout';
+// import AuthLayout from './components/AuthLayout'; // Siguraduhing mayroon kang file na ito
+
+// Pages
 import HomePage from './pages/LandingPages/HomePage';
 import AboutPage from './pages/LandingPages/AboutPage';
 import ArticleListPage from './pages/LandingPages/ArticleListPage';
-
-import AuthLayout from './layouts/AuthLayout';
-import SignInPage from './pages/AuthPages/SignInPage';
-import SignUpPage from './pages/AuthPages/SignUpPage';
-
+import ArticlePage from './pages/LandingPages/ArticlePage';
 import NotFoundPage from './pages/NotFoundPage';
+
+// Auth Pages (I-uncomment o i-adjust base sa actual file names mo)
+// import SignInPage from './pages/Auth/SignInPage';
+// import SignUpPage from './pages/Auth/SignUpPage';
 
 const routes = [
   {
@@ -19,7 +22,7 @@ const routes = [
     errorElement: <NotFoundPage />,
     children: [
       {
-        path: '',
+        index: true,
         element: <HomePage />,
       },
       {
@@ -37,17 +40,17 @@ const routes = [
     ],
   },
   {
-    path: "auth/",
-    element: <AuthLayout />,
+    path: 'auth',
+    // element: <AuthLayout />, // I-uncomment kapag ready na ang AuthLayout
     errorElement: <NotFoundPage />,
     children: [
       {
-        path: "signin",
-        element: <SignInPage />,
+        path: 'signin',
+        // element: <SignInPage />,
       },
       {
-        path: "signup",
-        element: <SignUpPage />,
+        path: 'signup',
+        // element: <SignUpPage />,
       },
     ],
   },
@@ -56,9 +59,7 @@ const routes = [
 const router = createBrowserRouter(routes);
 
 function App() {
-  return (
-    <RouterProvider router={router} />
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

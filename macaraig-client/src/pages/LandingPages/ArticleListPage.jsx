@@ -1,9 +1,12 @@
 import Button from '../../components/Button';
 import articles from '../../assets/article-content.js';
 
+import Yourtext from "../../assets/Yourtext.png";
+
 const ArticleListPage = () => {
   return (
     <div className="flex w-full flex-col bg-zinc-950">
+     
       <section className="border-b-2 border-orange-600 bg-zinc-900 px-4 py-16 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.4em] text-orange-500">
@@ -21,10 +24,21 @@ const ArticleListPage = () => {
         </div>
       </section>
 
+     
       <section className="px-4 py-16 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => (
-            <div key={article.name} className="flex flex-col border-2 border-zinc-900 bg-zinc-900/50 rounded-3xl overflow-hidden hover:border-orange-600 transition-all p-6">
+            <div key={article.name} className="flex flex-col border-2 border-zinc-900 bg-zinc-900/50 rounded-3xl overflow-hidden hover:border-orange-600 transition-all p-6 group">
+              
+              {/* ITO ANG NAWAWALA: Image Container */}
+              <div className="mb-6 flex aspect-square items-center justify-center rounded-2xl bg-zinc-800 overflow-hidden border border-zinc-700">
+                <img 
+                  src={article.image || Yourtext} 
+                  alt={article.title} 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                />
+              </div>
+
               <h3 className="text-xl font-black text-white uppercase italic mb-4">{article.title}</h3>
               <p className="text-zinc-400 text-sm mb-6 line-clamp-3 text-justify">
                 {article.content[0]}

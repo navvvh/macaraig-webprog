@@ -34,8 +34,14 @@ function ArticlePage() {
 
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
+          
+          {/* Main Article Image */}
           <div className="flex aspect-video items-center justify-center rounded-2xl border-2 border-orange-600 bg-zinc-900 mb-12 overflow-hidden shadow-[0_0_20px_rgba(234,88,12,0.15)]">
-            <div className="text-orange-600 font-black text-6xl opacity-10 select-none tracking-tighter">HAJIMA</div>
+            <img 
+              src={article.image} 
+              alt={article.title} 
+              className="w-full h-full object-cover"
+            />
           </div>
 
           <div className="space-y-8">

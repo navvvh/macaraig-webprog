@@ -1,7 +1,10 @@
+import Yourtext from "../assets/Yourtext.png"
+
 const articles = [
   {
     name: "the-hajima-story",
     title: "The Grind Never Stops: Our Origins",
+    image: Yourtext,
     content: [
       "Hajima Apparel started in a small garage with one goal: to redefine local streetwear. We believe that clothing is more than just fabric; it's a statement of perseverance.",
       "Our brand name 'Hajima' is a reminder to challenge the status quo and push boundaries in the fashion industry. It represents the spirit of those who never settle.",
@@ -11,7 +14,8 @@ const articles = [
   },
   {
     name: "streetwear-essentials-2026",
-    title: "5 Streetwear  You Need This Year",
+    title: "5 Streetwear Essentials You Need This Year",
+    image: Yourtext,
     content: [
       "Building a versatile wardrobe starts with the basics. This year, it's all about oversized silhouettes and heavy-weight cotton that lasts.",
       "1. The Boxy Tee: A staple for any streetwear enthusiast. Our Hajima Pro-Fit tees offer the perfect drop-shoulder look and premium feel.",
@@ -23,6 +27,7 @@ const articles = [
   {
     name: "caring-for-your-apparel",
     title: "How to Keep Your Prints Fresh",
+    image: Yourtext,
     content: [
       "Premium apparel deserves premium care. To keep your Hajima pieces looking brand new, follow these simple washing and maintenance steps.",
       "Always wash your graphic tees inside out in cold water. This simple trick protects the high-density print from friction and prevents premature fading.",
@@ -33,6 +38,7 @@ const articles = [
   {
     name: "styling-the-signature-orange",
     title: "How to Style Our Signature Orange",
+    image: Yourtext,
     content: [
       "Orange is a bold choice, but when styled correctly, it commands attention. It’s the color of energy and the core of the Hajima identity.",
       "Pair our signature orange pieces with neutral tones like pitch black, slate grey, or crisp white to let the color truly pop without overwhelming your look.",
