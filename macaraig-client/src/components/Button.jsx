@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 const variantClasses = {
-  primary: 'bg-orange-600 text-white border-orange-600 hover:bg-orange-700',
+  primary: 'bg-orange-600 text-black border-white hover:bg-orange-700',
   secondary: 'bg-transparent text-white border-zinc-700 hover:border-orange-600 hover:text-orange-500',
 };
 

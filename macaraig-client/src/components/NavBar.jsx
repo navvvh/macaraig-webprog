@@ -42,10 +42,6 @@ const NavBar = () => {
           <NavLink to="/auth/signin" className="text-[11px] font-bold uppercase tracking-[0.24em] text-zinc-400 hover:text-orange-500 px-4 transition">
             Log In
           </NavLink>
-          
-          <Button to="/auth/signup" variant="primary" className="py-2 px-6 text-[10px] font-black italic uppercase">
-            Join
-          </Button>
         </nav>
       </div>
     </header>

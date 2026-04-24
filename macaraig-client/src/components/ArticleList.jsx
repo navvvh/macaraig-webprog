@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import Button from './Button';
-import assets from "../assets/Your text.png";
+import Yourtext from "../assets/Yourtext.png";
 
 const ArticleList = ({ articles }) => {
   return (
@@ -9,7 +9,7 @@ const ArticleList = ({ articles }) => {
         <article key={article.name} className="rounded-3xl border-2 border-zinc-900 bg-zinc-900 p-6 hover:border-orange-600 transition-all group">
           <div className="flex aspect-square items-center justify-center rounded-2xl bg-zinc-800 overflow-hidden border border-zinc-700">
             <img 
-              src={article.image || assets} 
+              src={article.image ? article.image : Yourtext} 
               alt={article.title} 
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
             />

@@ -1,10 +1,11 @@
 import Button from '../../components/Button';
 import assets from "../../assets/Hajjima.png";
+import yourtext from "../../assets/Yourtext.png";
 
 const AboutPage = () => {
   return (
     <div className="flex w-full flex-col gap-6">
-      <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      <section className="border-y-2 border-zinc-900 bg-black px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
           
           <img
@@ -17,10 +18,10 @@ const AboutPage = () => {
             <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
               About Our Brand
             </p>
-            <h1 className="max-w-xl text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
+            <h1 className="max-w-xl text-3xl font-bold leading-tight text-white sm:text-4xl">
               HAJJIMA APPAREL
             </h1>
-            <p className="mt-4 max-w-lg text-sm leading-7 text-zinc-600 sm:text-base">
+            <p className="mt-4 max-w-lg text-sm leading-7 text-white sm:text-base">
               HAJJIMA APPAREL is a streetwear clothing brand built on passion, hustle, and self-expression.
               Our designs represent the mindset of never giving up and always pushing forward no matter the situation.
             </p>
@@ -40,12 +41,12 @@ const AboutPage = () => {
       </section>
 
       
-      <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      <section className="border-y-2 border-zinc-900 bg-black px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="mb-6">
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
             Brand Overview
           </p>
-          <h2 className="mt-2 text-2xl font-semibold text-zinc-900">
+          <h2 className="mt-2 text-2xl font-semibold text-white">
             What we represent
           </h2>
         </div>
@@ -82,13 +83,13 @@ const AboutPage = () => {
       </section>
 
       
-      <section className="border-y-2 border-zinc-900 bg-zinc-50 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      <section className="border-y-2 border-orange-500 bg-black px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <p className="text-[11px] uppercase text-zinc-500">
               Our Identity
             </p>
-            <h2 className="mt-2 text-2xl font-semibold text-zinc-900">
+            <h2 className="mt-2 text-2xl font-semibold text-white">
               Built for the Hustle
             </h2>
 
@@ -117,16 +118,16 @@ const AboutPage = () => {
           </div>
 
           
-          <div className="rounded-3xl border-2 border-zinc-900 bg-zinc-100 p-5">
+          <div className="rounded-3xl border-2 border-zinc-900 bg-orange-600 p-5">
             <p className="text-[11px] uppercase text-zinc-500">
               Brand Visuals
             </p>
 
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               {[1,2,3,4].map((item) => (
-                <div key={item} className="flex aspect-square rounded-[1.25rem] bg-zinc-200 overflow-hidden">
+                <div key={item} className="flex aspect-square rounded-[1.25rem] bg-black overflow-hidden">
                   <img
-                    src={assets}
+                    src={yourtext}
                     alt="brand"
                     className="w-full h-full object-cover rounded-[1.25rem]"
                   />
@@ -134,7 +135,7 @@ const AboutPage = () => {
               ))}
             </div>
 
-            <Button className="mt-5">View Collection</Button>
+            <Button className="mt-5 ">View Collection</Button>
           </div>
         </div>
       </section>
