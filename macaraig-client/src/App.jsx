@@ -12,6 +12,11 @@ import SignUpPage from './pages/AuthPages/SignUpPage';
 
 import NotFoundPage from './pages/NotFoundPage';
 
+import DashLayout from './layouts/DashLayout';
+import DashboardPage from './pages/DashboardPages/DashboardPage';
+import ReportPage from './pages/DashboardPages/ReportPage';
+import UsersPage from './pages/DashboardPages/UsersPage';
+
 const routes = [
   {
     path: '/',
@@ -36,18 +41,39 @@ const routes = [
       },
     ],
   },
+
   {
-    path: "auth/",
+    path: 'auth/',
     element: <AuthLayout />,
     errorElement: <NotFoundPage />,
     children: [
       {
-        path: "signin",
+        path: 'signin',
         element: <SignInPage />,
       },
       {
-        path: "signup",
+        path: 'signup',
         element: <SignUpPage />,
+      },
+    ],
+  },
+
+  {
+    path: 'dashboard/',
+    element: <DashLayout />,
+    errorElement: <NotFoundPage />,
+    children: [
+      {
+        path: '',
+        element: <DashboardPage />,
+      },
+      {
+        path: 'reports',
+        element: <ReportPage />,
+      },
+      {
+        path: 'users',
+        element: <UsersPage />,
       },
     ],
   },
@@ -56,9 +82,7 @@ const routes = [
 const router = createBrowserRouter(routes);
 
 function App() {
-  return (
-    <RouterProvider router={router} />
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
