@@ -1,5 +1,5 @@
 import Button from '../../components/Button';
-import articles from '../../assets/article-content.js';
+import articles from "../../data/article-content.js";
 
 import Yourtext from "../../assets/Yourtext.png";
 
