@@ -7,6 +7,16 @@ import { Gauge } from '@mui/x-charts/Gauge';
 import { Typography, CardContent, Card } from '@mui/material';
 import { PieChart } from '@mui/x-charts/PieChart';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 90 },
@@ -85,7 +95,6 @@ function DashboardPage() {
         Dashboard <span style={{ color: '#ea580c' }}>Overview</span>
       </Typography>
 
-     
       <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ mb: 4 }}>
         <Card sx={cardSx}>
           <CardContent>
@@ -101,13 +110,11 @@ function DashboardPage() {
         </Card>
       </Stack>
 
-     
       <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} sx={{ mb: 4 }}>
         <Gauge width={100} height={100} value={50} />
         <Gauge width={100} height={100} value={35} valueMin={10} valueMax={60} />
       </Stack>
 
-      
       <Stack direction={{ xs: 'column', md: 'row' }} spacing={3} sx={{ mb: 4 }}>
         <Card sx={{ ...cardSx, flex: 1 }}>
           <CardContent>
@@ -143,7 +150,6 @@ function DashboardPage() {
         </Card>
       </Stack>
 
-      
       <Typography variant="h5" gutterBottom sx={{ color: '#fff', fontWeight: 900, fontStyle: 'italic', textTransform: 'uppercase' }}>
         Users <span style={{ color: '#ea580c' }}>Overview</span>
       </Typography>
@@ -159,12 +165,15 @@ function DashboardPage() {
         />
       </Box>
 
-      
       <Typography variant="h5" gutterBottom sx={{ color: '#fff', fontWeight: 900, fontStyle: 'italic', textTransform: 'uppercase' }}>
         Location <span style={{ color: '#ea580c' }}>Map</span>
       </Typography>
       <Box sx={{ height: 500, width: '100%', border: '2px solid #27272a', borderRadius: 2, overflow: 'hidden' }}>
-        <MapContainer center={[14.640253, 120.994314]} zoom={13} style={{ height: '100%', width: '100%' }}>
+        <MapContainer
+          center={[14.640253, 120.994314]}
+          zoom={13}
+          style={{ height: '500px', width: '100%' }}
+        >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

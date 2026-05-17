@@ -1,9 +1,28 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
+import UserService from '../../UserService';
 
 const inputClasses = 'mt-2 w-full rounded-xl border-2 border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-white outline-none transition focus:border-orange-600 focus:bg-zinc-800 placeholder:text-zinc-600';
 
 const SignInPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await UserService.loginUser(email, password);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Login failed');
+    }
+  };
+
   return (
     <div className="w-full max-w-md">
       <p className="mb-2 text-[11px] font-black uppercase tracking-[0.4em] text-orange-600">
@@ -12,11 +31,20 @@ const SignInPage = () => {
       <h1 className="text-4xl font-black italic tracking-tighter text-orange-600 uppercase sm:text-5xl">
         WELCOME <span className="text-white">BACK</span>
       </h1>
+
+      {error && <p className="mt-4 text-red-500 text-sm font-bold">{error}</p>}
       
-      <form className="mt-10 space-y-6">
+      <form className="mt-10 space-y-6" onSubmit={handleLogin}>
         <div>
           <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Email Address</label>
-          <input type="email" placeholder="hustle@hajima.com" className={inputClasses} />
+          <input 
+            type="email" 
+            placeholder="hustle@hajima.com" 
+            className={inputClasses}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
 
         <div>
@@ -24,7 +52,14 @@ const SignInPage = () => {
             <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Password</label>
             <button type="button" className="text-[10px] uppercase font-bold text-orange-600 hover:text-white transition">Forgot?</button>
           </div>
-          <input type="password" placeholder="••••••••" className={inputClasses} />
+          <input 
+            type="password" 
+            placeholder="••••••••" 
+            className={inputClasses}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </div>
 
         <Button type="submit" variant="primary" className="w-full py-4 text-xs tracking-[0.2em] font-black italic uppercase">
