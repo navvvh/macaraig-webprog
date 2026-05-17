@@ -108,7 +108,7 @@ const UsersPage = () => {
     const [filterGender, setFilterGender] = useState('');
     const [filterStatus, setFilterStatus] = useState('');
 
-    // Enhancement 1: Redirect editors away from UsersPage
+
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         const token = localStorage.getItem('token');
@@ -117,7 +117,7 @@ const UsersPage = () => {
         fetchUsers(token);
     }, []);
 
-    // Enhancement 3: Fetch users from backend
+
     const fetchUsers = async (token) => {
         try {
             const data = await UserService.getUsers(token);
@@ -148,7 +148,7 @@ const UsersPage = () => {
     const clearFilters = () => { setSearch(''); setFilterRole(''); setFilterGender(''); setFilterStatus(''); };
     const resetForm = () => { setForm({ ...blankForm }); setErrors({}); };
 
-    // Enhancement 3: openModal populates all fields from backend
+
     const openModal = (user) => {
         setModal({ open: true, id: user?.id ?? null });
         if (user) {
@@ -221,7 +221,7 @@ const UsersPage = () => {
         return nextErrors;
     };
 
-    // Enhancement 3: Save or update user with all fields
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const nextErrors = validate();
@@ -245,10 +245,10 @@ const UsersPage = () => {
 
         try {
             if (modal.id) {
-                // Enhancement 3: Update existing user
+
                 await UserService.updateUser(modal.id, userData, token);
             } else {
-                // Enhancement 3: Register new user
+
                 await UserService.registerUser({ ...userData, password: form.password }, token);
             }
             await fetchUsers(token);

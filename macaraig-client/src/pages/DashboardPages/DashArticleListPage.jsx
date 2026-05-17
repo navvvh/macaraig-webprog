@@ -91,7 +91,7 @@ const DashArticleListPage = () => {
     const [form, setForm] = useState({ ...blankForm });
     const [errors, setErrors] = useState({});
 
-    // Enhancement 1: Only admin can access
+    
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         const token = localStorage.getItem('token');
@@ -130,7 +130,7 @@ const DashArticleListPage = () => {
         return nextErrors;
     };
 
-    // Enhancement 2: Save to localStorage for persistence
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         const nextErrors = validate();
