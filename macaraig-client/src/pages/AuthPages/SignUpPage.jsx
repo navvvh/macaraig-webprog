@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
-import UserService from '../../UserService';
+import UserService from '../../userService';
 
 const inputClasses = 'mt-2 w-full rounded-xl border-2 border-zinc-800 bg-zinc-900 px-4 py-3 text-sm text-white outline-none transition focus:border-orange-600 focus:bg-zinc-800 placeholder:text-zinc-600';
 
