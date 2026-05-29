@@ -11,7 +11,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { DataGrid } from '@mui/x-data-grid';
-import UserService from '../../UserService';
+import UserService from '../../userService';
 
 const orangeBlackTheme = createTheme({
     palette: {
