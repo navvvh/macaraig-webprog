@@ -64,10 +64,9 @@ function ArticlePage() {
 
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
-
           <div className="flex aspect-video items-center justify-center rounded-2xl border-2 border-orange-600 bg-zinc-900 mb-12 overflow-hidden shadow-[0_0_20px_rgba(234,88,12,0.15)]">
             <img
-              src={article.image}
+              src={article.image ?? Yourtext}
               alt={article.title}
               className="w-full h-full object-cover"
             />
