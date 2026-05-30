@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import Button from '../../components/Button';
 import hardcodedArticles from "../../data/article-content.js";
 import NotFoundPage from "../NotFoundPage";
+import Yourtext from "../../assets/Yourtext.png";
 
 const STORAGE_KEY = 'macaraig_articles';
 
