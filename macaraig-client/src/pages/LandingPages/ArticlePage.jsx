@@ -1,11 +1,31 @@
 import { useParams } from 'react-router-dom';
 import Button from '../../components/Button';
-import articles from "../../data/article-content.js";
+import staticArticles from "../../data/article-content.js";
 import NotFoundPage from "../NotFoundPage";
+import Yourtext from "../../assets/Yourtext.png";
+
+const STORAGE_KEY = 'macaraig_articles';
+
+const getAllArticles = () => {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      return parsed.filter(a => a.status === 'published');
+    }
+  } catch {}
+  return staticArticles.map((a) => ({
+    name: a.name,
+    title: a.title,
+    image: a.image || '',
+    content: Array.isArray(a.content) ? a.content : [a.content],
+    status: 'published',
+  }));
+};
 
 function ArticlePage() {
   const { name } = useParams();
-  const article = articles.find(article => article.name === name);
+  const article = getAllArticles().find(a => a.name === name);
 
   if (!article) {
     return <NotFoundPage />;
@@ -34,17 +54,17 @@ function ArticlePage() {
 
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
-          
+
           <div className="flex aspect-video items-center justify-center rounded-2xl border-2 border-orange-600 bg-zinc-900 mb-12 overflow-hidden shadow-[0_0_20px_rgba(234,88,12,0.15)]">
-            <img 
-              src={article.image} 
-              alt={article.title} 
+            <img
+              src={article.image || Yourtext}
+              alt={article.title}
               className="w-full h-full object-cover"
             />
           </div>
 
           <div className="space-y-8">
-            {article.content.map((paragraph, index) => (
+            {(Array.isArray(article.content) ? article.content : [article.content]).map((paragraph, index) => (
               <p key={index} className="text-lg leading-8 text-zinc-300 font-medium whitespace-pre-wrap text-justify">
                 {paragraph}
               </p>

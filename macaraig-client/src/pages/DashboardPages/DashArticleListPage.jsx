@@ -1,4 +1,3 @@
-
 import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -59,7 +58,6 @@ const orangeBlackTheme = createTheme({
 
 const STORAGE_KEY = 'macaraig_articles';
 
-
 const loadArticles = () => {
     try {
         const saved = localStorage.getItem(STORAGE_KEY);
@@ -69,7 +67,9 @@ const loadArticles = () => {
         id: index + 1,
         name: a.name,
         title: a.title,
+        image: a.image || '',
         preview: Array.isArray(a.content) ? a.content[0] : a.content,
+        content: Array.isArray(a.content) ? a.content : [a.content],
         status: 'published',
     }));
 };
@@ -78,7 +78,7 @@ const saveArticles = (list) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 };
 
-const blankForm = { title: '', content: '' };
+const blankForm = { title: '', image: '', content: '' };
 
 const DashArticleListPage = () => {
     const theme = useTheme();
@@ -91,7 +91,6 @@ const DashArticleListPage = () => {
     const [form, setForm] = useState({ ...blankForm });
     const [errors, setErrors] = useState({});
 
-    
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         const token = localStorage.getItem('token');
@@ -108,7 +107,16 @@ const DashArticleListPage = () => {
 
     const openModal = (article) => {
         setModal({ open: true, id: article?.id ?? null });
-        setForm(article ? { title: article.title, content: article.preview } : { ...blankForm });
+        setForm(article
+            ? {
+                title: article.title,
+                image: article.image || '',
+                content: Array.isArray(article.content)
+                    ? article.content.join('\n\n')
+                    : (article.preview || ''),
+              }
+            : { ...blankForm }
+        );
         setErrors({});
     };
 
@@ -127,29 +135,46 @@ const DashArticleListPage = () => {
         const nextErrors = {};
         if (!form.title.trim()) nextErrors.title = 'Title is required.';
         if (!form.content.trim()) nextErrors.content = 'Content is required.';
+        if (form.image.trim() && !/^https?:\/\/.+/.test(form.image.trim())) {
+            nextErrors.image = 'Image URL must start with http:// or https://';
+        }
         return nextErrors;
     };
 
-    
     const handleSubmit = (e) => {
         e.preventDefault();
         const nextErrors = validate();
         if (Object.keys(nextErrors).length) { setErrors(nextErrors); return; }
 
+        // Split content into paragraphs array (split on double newline)
+        const contentArray = form.content
+            .split(/\n{2,}/)
+            .map(p => p.trim())
+            .filter(Boolean);
+
         let updated;
         if (modal.id) {
-           
             updated = articleList.map(a =>
-                a.id === modal.id ? { ...a, title: form.title, preview: form.content } : a
+                a.id === modal.id
+                    ? {
+                        ...a,
+                        title: form.title,
+                        image: form.image.trim(),
+                        preview: contentArray[0] || '',
+                        content: contentArray,
+                      }
+                    : a
             );
         } else {
-            
             const newId = articleList.reduce((max, a) => Math.max(max, a.id), 0) + 1;
+            const slug = form.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
             updated = [...articleList, {
                 id: newId,
-                name: form.title.toLowerCase().replace(/\s+/g, '-'),
+                name: slug,
                 title: form.title,
-                preview: form.content,
+                image: form.image.trim(),
+                preview: contentArray[0] || '',
+                content: contentArray,
                 status: 'published',
             }];
         }
@@ -159,7 +184,6 @@ const DashArticleListPage = () => {
         closeModal();
     };
 
-  
     const toggleStatus = (id) => {
         const updated = articleList.map(a =>
             a.id === id ? { ...a, status: a.status === 'published' ? 'draft' : 'published' } : a
@@ -258,12 +282,46 @@ const DashArticleListPage = () => {
                         </DialogTitle>
                         <DialogContent dividers sx={{ px: { xs: 2, sm: 3 }, bgcolor: '#1A1A1A' }}>
                             <Stack spacing={2} sx={{ pt: 1 }}>
-                                <TextField name="title" label="Title" value={form.title}
-                                    onChange={handleChange} error={Boolean(errors.title)}
-                                    helperText={errors.title} fullWidth />
-                                <TextField name="content" label="Content Preview" value={form.content}
-                                    onChange={handleChange} error={Boolean(errors.content)}
-                                    helperText={errors.content} fullWidth multiline rows={5} />
+                                <TextField
+                                    name="title"
+                                    label="Title"
+                                    value={form.title}
+                                    onChange={handleChange}
+                                    error={Boolean(errors.title)}
+                                    helperText={errors.title}
+                                    fullWidth
+                                />
+                                <TextField
+                                    name="image"
+                                    label="Image URL"
+                                    placeholder="https://example.com/image.jpg"
+                                    value={form.image}
+                                    onChange={handleChange}
+                                    error={Boolean(errors.image)}
+                                    helperText={errors.image || 'Paste a direct image link (optional)'}
+                                    fullWidth
+                                />
+                                {form.image && !errors.image && (
+                                    <Box sx={{ border: '1px solid #2A2A2A', borderRadius: 1, overflow: 'hidden', height: 160 }}>
+                                        <img
+                                            src={form.image}
+                                            alt="Preview"
+                                            onError={(e) => { e.target.style.display = 'none'; }}
+                                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                        />
+                                    </Box>
+                                )}
+                                <TextField
+                                    name="content"
+                                    label="Content (separate paragraphs with a blank line)"
+                                    value={form.content}
+                                    onChange={handleChange}
+                                    error={Boolean(errors.content)}
+                                    helperText={errors.content}
+                                    fullWidth
+                                    multiline
+                                    rows={8}
+                                />
                             </Stack>
                         </DialogContent>
                         <DialogActions sx={{ px: 3, py: 2, bgcolor: '#111' }}>

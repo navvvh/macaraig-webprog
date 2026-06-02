@@ -13,6 +13,7 @@ const loadArticles = () => {
         id: index + 1,
         name: a.name,
         title: a.title,
+        image: a.image || '',
         preview: Array.isArray(a.content) ? a.content[0] : a.content,
         status: 'published',
     }));
