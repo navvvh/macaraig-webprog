@@ -1,35 +1,38 @@
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Button from '../../components/Button';
-import staticArticles from "../../data/article-content.js";
 import NotFoundPage from "../NotFoundPage";
 import Yourtext from "../../assets/Yourtext.png";
 
-const STORAGE_KEY = 'macaraig_articles';
-
-const getAllArticles = () => {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      return parsed.filter(a => a.status === 'published');
-    }
-  } catch {}
-  return staticArticles.map((a) => ({
-    name: a.name,
-    title: a.title,
-    image: a.image || '',
-    content: Array.isArray(a.content) ? a.content : [a.content],
-    status: 'published',
-  }));
-};
+const API_URL = 'http://localhost:5000/api/articles';
 
 function ArticlePage() {
   const { name } = useParams();
-  const article = getAllArticles().find(a => a.name === name);
+  const [article, setArticle] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
-  if (!article) {
-    return <NotFoundPage />;
+  useEffect(() => {
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(data => {
+        const found = data.find(a => a.name === name && a.status === 'published');
+        if (!found) setNotFound(true);
+        else setArticle(found);
+      })
+      .catch(() => setNotFound(true))
+      .finally(() => setLoading(false));
+  }, [name]);
+
+  if (loading) {
+    return (
+      <div className="flex w-full min-h-screen items-center justify-center bg-zinc-950">
+        <div className="w-10 h-10 border-4 border-orange-600 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
   }
+
+  if (notFound || !article) return <NotFoundPage />;
 
   return (
     <div className="flex w-full flex-col bg-zinc-950">

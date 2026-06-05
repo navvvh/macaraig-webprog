@@ -1,26 +1,23 @@
+import { useState, useEffect } from 'react';
 import Button from '../../components/Button';
-import articles from "../../data/article-content.js";
 import Yourtext from "../../assets/Yourtext.png";
 
-const STORAGE_KEY = 'macaraig_articles';
-
-const loadArticles = () => {
-    try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) return JSON.parse(saved);
-    } catch {}
-    return articles.map((a, index) => ({
-        id: index + 1,
-        name: a.name,
-        title: a.title,
-        image: a.image || '',
-        preview: Array.isArray(a.content) ? a.content[0] : a.content,
-        status: 'published',
-    }));
-};
+const API_URL = 'http://localhost:5000/api/articles';
 
 const ArticleListPage = () => {
-    const articleList = loadArticles().filter(a => a.status === 'published');
+    const [articleList, setArticleList] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch(API_URL)
+            .then(res => res.json())
+            .then(data => {
+                const published = data.filter(a => a.status === 'published');
+                setArticleList(published);
+            })
+            .catch(err => console.error('Failed to fetch articles:', err))
+            .finally(() => setLoading(false));
+    }, []);
 
     return (
         <div className="flex w-full flex-col bg-zinc-950">
@@ -42,26 +39,34 @@ const ArticleListPage = () => {
             </section>
 
             <section className="px-4 py-16 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    {articleList.map((article) => (
-                        <div key={article.id} className="flex flex-col border-2 border-zinc-900 bg-zinc-900/50 rounded-3xl overflow-hidden hover:border-orange-600 transition-all p-6 group">
-                            <div className="mb-6 flex aspect-square items-center justify-center rounded-2xl bg-zinc-800 overflow-hidden border border-zinc-700">
-                                <img
-                                    src={article.image || Yourtext}
-                                    alt={article.title}
-                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                                />
+                {loading ? (
+                    <div className="flex justify-center py-20">
+                        <div className="w-10 h-10 border-4 border-orange-600 border-t-transparent rounded-full animate-spin" />
+                    </div>
+                ) : articleList.length === 0 ? (
+                    <p className="text-zinc-500 text-center py-20">No articles published yet.</p>
+                ) : (
+                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        {articleList.map((article) => (
+                            <div key={article._id} className="flex flex-col border-2 border-zinc-900 bg-zinc-900/50 rounded-3xl overflow-hidden hover:border-orange-600 transition-all p-6 group">
+                                <div className="mb-6 flex aspect-square items-center justify-center rounded-2xl bg-zinc-800 overflow-hidden border border-zinc-700">
+                                    <img
+                                        src={article.image || Yourtext}
+                                        alt={article.title}
+                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    />
+                                </div>
+                                <h3 className="text-xl font-black text-white uppercase italic mb-4">{article.title}</h3>
+                                <p className="text-zinc-400 text-sm mb-6 line-clamp-3 text-justify">
+                                    {article.preview}
+                                </p>
+                                <Button to={`/articles/${article.name}`} variant="primary" className="mt-auto">
+                                    Read More
+                                </Button>
                             </div>
-                            <h3 className="text-xl font-black text-white uppercase italic mb-4">{article.title}</h3>
-                            <p className="text-zinc-400 text-sm mb-6 line-clamp-3 text-justify">
-                                {article.preview}
-                            </p>
-                            <Button to={`/articles/${article.name}`} variant="primary" className="mt-auto">
-                                Read More
-                            </Button>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
             </section>
         </div>
     );

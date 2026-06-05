@@ -1,13 +1,14 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    Alert, Box, Button, Chip, Dialog, DialogActions, DialogContent,
+    Alert, Box, Button, Chip, CircularProgress, Dialog, DialogActions, DialogContent,
     DialogTitle, InputBase, Paper, Stack, TextField, Typography, useMediaQuery,
 } from '@mui/material';
 import { useTheme, createTheme, ThemeProvider } from '@mui/material/styles';
 import { DataGrid } from '@mui/x-data-grid';
 import SearchIcon from '@mui/icons-material/Search';
-import articles from '../../data/article-content.js';
+
+const API_URL = 'http://localhost:5000/api/articles';
 
 const orangeBlackTheme = createTheme({
     palette: {
@@ -56,28 +57,6 @@ const orangeBlackTheme = createTheme({
     },
 });
 
-const STORAGE_KEY = 'macaraig_articles';
-
-const loadArticles = () => {
-    try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) return JSON.parse(saved);
-    } catch {}
-    return articles.map((a, index) => ({
-        id: index + 1,
-        name: a.name,
-        title: a.title,
-        image: a.image || '',
-        preview: Array.isArray(a.content) ? a.content[0] : a.content,
-        content: Array.isArray(a.content) ? a.content : [a.content],
-        status: 'published',
-    }));
-};
-
-const saveArticles = (list) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-};
-
 const blankForm = { title: '', image: '', content: '' };
 
 const DashArticleListPage = () => {
@@ -85,17 +64,38 @@ const DashArticleListPage = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const navigate = useNavigate();
 
-    const [articleList, setArticleList] = useState(loadArticles);
+    const [articleList, setArticleList] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [modal, setModal] = useState({ open: false, id: null });
     const [form, setForm] = useState({ ...blankForm });
     const [errors, setErrors] = useState({});
+    const [submitError, setSubmitError] = useState('');
+
+    const getToken = () => localStorage.getItem('token');
+
+    const fetchArticles = useCallback(async () => {
+        setLoading(true);
+        try {
+            const res = await fetch(API_URL, {
+                headers: { Authorization: `Bearer ${getToken()}` },
+            });
+            const data = await res.json();
+            // DataGrid requires an `id` field — map _id to id
+            setArticleList(data.map(a => ({ ...a, id: a._id })));
+        } catch (err) {
+            console.error('Failed to fetch articles:', err);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
         const token = localStorage.getItem('token');
         if (!token || !user) { navigate('/'); return; }
         if (user.role === 'editor') { navigate('/dashboard'); return; }
+        fetchArticles();
     }, []);
 
     const filteredArticles = useMemo(() => {
@@ -114,16 +114,18 @@ const DashArticleListPage = () => {
                 content: Array.isArray(article.content)
                     ? article.content.join('\n\n')
                     : (article.preview || ''),
-              }
+            }
             : { ...blankForm }
         );
         setErrors({});
+        setSubmitError('');
     };
 
     const closeModal = () => {
         setModal({ open: false, id: null });
         setForm({ ...blankForm });
         setErrors({});
+        setSubmitError('');
     };
 
     const handleChange = ({ target: { name, value } }) => {
@@ -141,59 +143,76 @@ const DashArticleListPage = () => {
         return nextErrors;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const nextErrors = validate();
         if (Object.keys(nextErrors).length) { setErrors(nextErrors); return; }
 
-        // Split content into paragraphs array (split on double newline)
         const contentArray = form.content
             .split(/\n{2,}/)
             .map(p => p.trim())
             .filter(Boolean);
 
-        let updated;
-        if (modal.id) {
-            updated = articleList.map(a =>
-                a.id === modal.id
-                    ? {
-                        ...a,
-                        title: form.title,
-                        image: form.image.trim(),
-                        preview: contentArray[0] || '',
-                        content: contentArray,
-                      }
-                    : a
-            );
-        } else {
-            const newId = articleList.reduce((max, a) => Math.max(max, a.id), 0) + 1;
-            const slug = form.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-            updated = [...articleList, {
-                id: newId,
-                name: slug,
-                title: form.title,
-                image: form.image.trim(),
-                preview: contentArray[0] || '',
-                content: contentArray,
-                status: 'published',
-            }];
-        }
+        const isEdit = Boolean(modal.id);
+        const url = isEdit ? `${API_URL}/${modal.id}` : API_URL;
+        const method = isEdit ? 'PUT' : 'POST';
 
-        setArticleList(updated);
-        saveArticles(updated);
-        closeModal();
+        const body = {
+            title: form.title,
+            image: form.image.trim(),
+            preview: contentArray[0] || '',
+            content: contentArray,
+            ...(isEdit ? {} : {
+                name: form.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+                status: 'published',
+            }),
+        };
+
+        try {
+            const res = await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${getToken()}`,
+                },
+                body: JSON.stringify(body),
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                setSubmitError(err.message || 'Something went wrong.');
+                return;
+            }
+
+            await fetchArticles();
+            closeModal();
+        } catch (err) {
+            setSubmitError('Network error. Please try again.');
+        }
     };
 
-    const toggleStatus = (id) => {
-        const updated = articleList.map(a =>
-            a.id === id ? { ...a, status: a.status === 'published' ? 'draft' : 'published' } : a
-        );
-        setArticleList(updated);
-        saveArticles(updated);
+    const toggleStatus = async (id) => {
+        const article = articleList.find(a => a.id === id);
+        const newStatus = article.status === 'published' ? 'draft' : 'published';
+
+        try {
+            const res = await fetch(`${API_URL}/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${getToken()}`,
+                },
+                body: JSON.stringify({ status: newStatus }),
+            });
+
+            if (res.ok) await fetchArticles();
+        } catch (err) {
+            console.error('Failed to toggle status:', err);
+        }
     };
 
     const columns = [
-        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'id', headerName: 'ID', width: 70, valueGetter: (value) => value?.slice(-5) },
         { field: 'title', headerName: 'Title', flex: 1, minWidth: 200 },
         { field: 'name', headerName: 'Slug', minWidth: 180 },
         {
@@ -260,7 +279,11 @@ const DashArticleListPage = () => {
                 </Paper>
 
                 <Paper sx={{ p: { xs: 1.5, sm: 2 }, minWidth: 0, overflow: 'hidden', bgcolor: '#1A1A1A' }}>
-                    {filteredArticles.length ? (
+                    {loading ? (
+                        <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
+                            <CircularProgress sx={{ color: '#FF6B00' }} />
+                        </Box>
+                    ) : filteredArticles.length ? (
                         <Box sx={{ height: { xs: 460, sm: 520 }, width: '100%' }}>
                             <DataGrid rows={filteredArticles} columns={columns} disableRowSelectionOnClick
                                 pageSizeOptions={[5, 10]}
@@ -282,6 +305,11 @@ const DashArticleListPage = () => {
                         </DialogTitle>
                         <DialogContent dividers sx={{ px: { xs: 2, sm: 3 }, bgcolor: '#1A1A1A' }}>
                             <Stack spacing={2} sx={{ pt: 1 }}>
+                                {submitError && (
+                                    <Alert severity="error" sx={{ bgcolor: '#2a0000', color: '#ff6b6b', border: '1px solid #ff4444' }}>
+                                        {submitError}
+                                    </Alert>
+                                )}
                                 <TextField
                                     name="title"
                                     label="Title"
